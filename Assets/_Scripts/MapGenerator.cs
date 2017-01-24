@@ -14,6 +14,7 @@ public class MapGenerator : MonoBehaviour {
     [Range(0, 100)] public int randomFillPercent;
 
     public int mapSmoother = 5;
+    public int borderSize = 5;
 
     int[,] map;
 
@@ -36,8 +37,20 @@ public class MapGenerator : MonoBehaviour {
             SmoothMap();
         }
 
+        int[,] borderedMap = new int[width + borderSize * 2, height + borderSize * 2];
+
+        for (int x = 0; x < borderedMap.GetLength(0); x++) {
+            for (int y = 0; y < borderedMap.GetLength(1); y++) {
+                if (x >= borderSize && x < width+borderSize && y >= borderSize && y < height+borderSize) {
+                    borderedMap[x, y] = map[x - borderSize, y - borderSize];
+                } else {
+                    borderedMap[x,y] = 1;  // this is the wall tile
+                }
+            }
+        }
+
         MeshGenerator meshGen = GetComponent<MeshGenerator>();
-        meshGen.GenerateMesh(map, 1);
+        meshGen.GenerateMesh(borderedMap, 1);
     }
 
     void RandomFillMap() {
