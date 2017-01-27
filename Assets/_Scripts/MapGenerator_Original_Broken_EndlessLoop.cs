@@ -1,9 +1,9 @@
-﻿/*using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-public class MapGenerator : MonoBehaviour {
+public class MapGenerator_Original_Broken_EndlessLoop : MonoBehaviour {
 
     public int width;
     public int height;
@@ -323,4 +323,4 @@ public class MapGenerator : MonoBehaviour {
             }
         }
     }*/
-//}
+}
