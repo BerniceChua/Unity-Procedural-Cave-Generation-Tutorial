@@ -71,13 +71,17 @@ public class MapGenerator : MonoBehaviour {
         List<List<Coordinates>> roomRegions = GetRegions(0);
 
         int roomThresholdSize = 50;
+        List<Room> survivingRooms = new List<Room>();
         foreach (List<Coordinates> roomRegion in roomRegions) {
             if (roomRegion.Count < roomThresholdSize) {
                 foreach (Coordinates tile in roomRegion) {
                     map[tile.tileX, tile.tileY] = 1;
                 }
+            } else {
+                survivingRooms.Add(new Room(roomRegion, map));
             }
         }
+
     }
 
     List<List<Coordinates>> GetRegions(int tileType) {
