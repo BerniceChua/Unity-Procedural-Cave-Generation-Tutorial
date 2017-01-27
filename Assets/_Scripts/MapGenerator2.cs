@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,7 +14,7 @@ public class MapGenerator : MonoBehaviour {
     [Range(0, 100)] public int randomFillPercent;
 
     public int mapSmoother = 5;
-    public int borderSize = 5;
+    public int borderSize = 1;
 
     int[,] map;
 
@@ -87,14 +87,19 @@ public class MapGenerator : MonoBehaviour {
 
     void ConnectClosestRooms(List<Room> allRooms) {
         int bestDistance = 0;
+        
+        // which 2 tiles resulted in this best distance
         Coordinates bestTileA = new Coordinates();
         Coordinates bestTileB = new Coordinates();
+
+        // which rooms do these tiles come from?
         Room bestRoomA = new Room();
         Room bestRoomB = new Room();
+
         bool possibleConnectionFound = false;
 
         foreach (Room roomA in allRooms) {
-            possibleConnectionFound = false;
+            possibleConnectionFound = false; // reset to allow us to move to the next room.
 
             foreach (Room roomB in allRooms) {
                 if (roomA == roomB) {
@@ -110,6 +115,7 @@ public class MapGenerator : MonoBehaviour {
                     for (int tileIndexB = 0; tileIndexB < roomB.edgeTiles.Count; tileIndexB++) {
                         Coordinates tileA = roomA.edgeTiles[tileIndexA];
                         Coordinates tileB = roomB.edgeTiles[tileIndexB];
+                        // find which distance is the lowest, so we don't need the squareroot part of the distance formula.
                         int distanceBetweenRooms = (int)( Mathf.Pow(tileA.tileX - tileB.tileX, 2) + Mathf.Pow(tileA.tileY - tileB.tileY, 2) );
 
                         if (distanceBetweenRooms < bestDistance || !possibleConnectionFound) {
@@ -120,7 +126,6 @@ public class MapGenerator : MonoBehaviour {
                             bestRoomA = roomA;
                             bestRoomB = roomB;
                         }
-                        
                     }
                 }
             }
@@ -135,9 +140,11 @@ public class MapGenerator : MonoBehaviour {
         Room.ConnectRooms(roomA, roomB);
         Debug.DrawLine(CoordToWorldPoint(tileA), CoordToWorldPoint(tileB), Color.green, 100);
     }
-    
+
     Vector3 CoordToWorldPoint(Coordinates tile) {
-        return new Vector3(-width/2 + 0.5f + tile.tileX, 2, -height/2 + 0.5f + tile.tileY);
+        // x-value is the far-left of the map
+        // y-value is 2 so it will be above the ground
+        return new Vector3(-width / 2 + 0.5f + tile.tileX, 2, -height / 2 + 0.5f + tile.tileY);
     }
 
     List<List<Coordinates>> GetRegions(int tileType) {
@@ -150,7 +157,7 @@ public class MapGenerator : MonoBehaviour {
                     List<Coordinates> newRegion = GetRegionTiles(x, y);
                     regions.Add(newRegion);
 
-                    foreach (Coordinates tile in newRegion) {
+                    foreach(Coordinates tile in newRegion) {
                         mapFlags[tile.tileX, tile.tileY] = 1; // flagged "1", to mean that this tile has already been looked at.
                     }
                 }
@@ -177,15 +184,15 @@ public class MapGenerator : MonoBehaviour {
             for (int x = tile.tileX - 1; x <= tile.tileX + 1; x++) {
                 for (int y = tile.tileY - 1; y <= tile.tileY + 1; y++) {
                     // check if tile is INSIDE the map, AND tiles that AREN'T diagonal.
-                    if (IsInMapRange(x, y) && (y == tile.tileY || x == tile.tileX)) { // the y == tile.tileY & x == tile.tileX means that this x & y is in the center, therefore not a diagonal.
+                    if (IsInMapRange(x, y) && (y == tile.tileY || x == tile.tileX) ) { // the y == tile.tileY & x == tile.tileX means that this x & y is in the center, therefore not a diagonal.
                         // check map flags to make sure we haven't looked at these tiles yet.
-                        if (mapFlags[x, y] == 0 && map[x, y] == tileType) {
+                        if (mapFlags[x, y] == 0 && map[x,y] == tileType) {
                             mapFlags[x, y] = 1;
                             queue.Enqueue(new Coordinates(x, y));
 
                         }
                     }
-
+                    
 
                 }
             }
@@ -207,10 +214,9 @@ public class MapGenerator : MonoBehaviour {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if (x == 0 || x == width - 1 || y == 0 || y == height - 1) {
+                if (x == 0 || x == width - 1 || y == 0 || y == height - 1 ) {
                     map[x, y] = 1;
-                }
-                else {
+                } else {
                     map[x, y] = (pseudoRNG.Next(0, 100) < randomFillPercent) ? 1 : 0;
                 }
             }
@@ -222,10 +228,9 @@ public class MapGenerator : MonoBehaviour {
             for (int y = 0; y < height; y++) {
                 int neighborWallTiles = GetSurroundingWallCount(x, y);
 
-                if (neighborWallTiles > mapSmoother - 1) {
+                if (neighborWallTiles > mapSmoother-1) {
                     map[x, y] = 1;
-                }
-                else if (neighborWallTiles < mapSmoother - 1) {
+                } else if (neighborWallTiles < mapSmoother-1) {
                     map[x, y] = 0;
                 }
             }
@@ -237,12 +242,11 @@ public class MapGenerator : MonoBehaviour {
 
         for (int neighborX = gridX - 1; neighborX <= gridX + 1; neighborX++) {
             for (int neighborY = gridY - 1; neighborY <= gridY + 1; neighborY++) {
-                if (IsInMapRange(neighborX, neighborY)) {
+                if ( IsInMapRange(neighborX, neighborY) ) {
                     if (neighborX != gridX || neighborY != gridY) {
                         wallCount += map[neighborX, neighborY];
                     }
-                }
-                else {
+                } else {
                     wallCount++;
                 }
             }
@@ -261,38 +265,36 @@ public class MapGenerator : MonoBehaviour {
         }
     }
 
-    /*private void OnDrawGizmos() {
-        if (map != null) {
-            for (int x = 0; x < width; x++) {
-                for (int y = 0; y < height; y++) {
-                    Gizmos.color = (map[x, y] == 1) ? Color.black : Color.white;
-                    Vector3 pos = new Vector3(-width/2 + x + 0.5f, 0, -height/2 + y + 0.5f);
-                    Gizmos.DrawCube(pos, Vector3.one);
-                }
-            }
-        }
-    }*/
-
     class Room {
         public List<Coordinates> tiles;
+        
+        // list of tiles that form the edge of the room, instead of searching ALL the tiles, limit to border tiles.
         public List<Coordinates> edgeTiles;
+
+        // list of Rooms that share a common passage
         public List<Room> connectedRooms;
+
         public int roomSize;
 
+        // empty constructor which sets the room to an empty room in case we need it.
         public Room() { }
 
+        // constructor
         public Room(List<Coordinates> roomTiles, int[,] map) {
             tiles = roomTiles;
             roomSize = tiles.Count;
             connectedRooms = new List<Room>();
 
             edgeTiles = new List<Coordinates>();
+            // go through each tile in the room, check the tile's neighbor.  if wall tile, it's at the edge of the room.
             foreach (Coordinates tile in tiles) {
                 for (int x = tile.tileX-1; x <= tile.tileX+1; x++) {
-                    for (int y = tile.tileY-1; y <= tile.tileY+1; y++) {
+                    for (int y = tile.tileY-1; x <= tile.tileY+1; y++) {
+                        // if the neighbors are diagonal to it instead of beside it or above & below it, exclude it.
                         if (x == tile.tileX || y == tile.tileY) {
-                            if (map[x, y] == 1) {
-                                edgeTiles.Add(tile);
+                            // check if this tile is a wall tile
+                            if (map[x,y] == 1) {
+                                edgeTiles.Add(tile); // if it's a wall tile, add it to the list of edgeTiles.
                             }
                         }
                     }
@@ -308,7 +310,17 @@ public class MapGenerator : MonoBehaviour {
         public bool IsConnected(Room otherRoom) {
             return connectedRooms.Contains(otherRoom);
         }
-
     }
 
-}
+    /*private void OnDrawGizmos() {
+        if (map != null) {
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    Gizmos.color = (map[x, y] == 1) ? Color.black : Color.white;
+                    Vector3 pos = new Vector3(-width/2 + x + 0.5f, 0, -height/2 + y + 0.5f);
+                    Gizmos.DrawCube(pos, Vector3.one);
+                }
+            }
+        }
+    }*/
+//}
