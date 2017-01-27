@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -80,6 +81,11 @@ public class MapGenerator : MonoBehaviour {
             } else {
                 survivingRooms.Add(new Room(roomRegion, map));
             }
+        }
+
+        survivingRooms.Sort();
+        foreach (Room r in survivingRooms) {
+            print(r.roomSize);
         }
 
         ConnectClosestRooms(survivingRooms);
@@ -273,7 +279,7 @@ public class MapGenerator : MonoBehaviour {
         }
     }*/
 
-    class Room {
+    class Room : IComparable<Room> {
         public List<Coordinates> tiles;
         public List<Coordinates> edgeTiles;
         public List<Room> connectedRooms;
@@ -307,6 +313,11 @@ public class MapGenerator : MonoBehaviour {
 
         public bool IsConnected(Room otherRoom) {
             return connectedRooms.Contains(otherRoom);
+        }
+
+        // gets the largest room
+        public int CompareTo(Room otherRoom) {
+            return otherRoom.roomSize.CompareTo(roomSize);
         }
 
     }
