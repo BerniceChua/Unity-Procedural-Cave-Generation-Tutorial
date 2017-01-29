@@ -79,6 +79,9 @@ public class MeshGenerator : MonoBehaviour {
         wallMesh.vertices = wallVertices.ToArray();
         wallMesh.triangles = wallTriangles.ToArray();
         walls.mesh = wallMesh; // assigns this wall mesh to a MeshFilter
+
+        MeshCollider wallCollider = walls.gameObject.AddComponent<MeshCollider>();
+        wallCollider.sharedMesh = wallMesh;
     }
 
     void TriangulateSquare(Square square) { // because meshes are always triangles.

@@ -20,5 +20,6 @@ public class CustomSimplePlayer : MonoBehaviour {
 
     private void FixedUpdate() {
         rigidbody.MovePosition(rigidbody.position + velocity * Time.fixedDeltaTime);
+        rigidbody.rotation = Quaternion.Euler(rigidbody.rotation.eulerAngles + new Vector3(0f, 1f * Input.GetAxisRaw("Mouse X"), 0f));
     }
 }
