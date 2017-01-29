@@ -9,6 +9,8 @@ public class MeshGenerator : MonoBehaviour {
 
     public MeshFilter cave;
 
+    public bool is2D;
+
     List<Vector3> vertices;
     List<int> triangles;
 
@@ -41,7 +43,10 @@ public class MeshGenerator : MonoBehaviour {
         mesh.triangles = triangles.ToArray();
         mesh.RecalculateNormals();
 
-        CreateWallMesh();
+        if (!is2D) {
+            CreateWallMesh();
+        }
+
     }
 
     void CreateWallMesh() {
