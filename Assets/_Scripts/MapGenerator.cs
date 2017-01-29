@@ -182,10 +182,120 @@ public class MapGenerator : MonoBehaviour {
     }
 
     void CreatePassage(Room roomA, Room roomB, Coordinates tileA, Coordinates tileB) {
+        int passagewayRadius = 1;
         Room.ConnectRooms(roomA, roomB);
         Debug.DrawLine(CoordToWorldPoint(tileA), CoordToWorldPoint(tileB), Color.green, 100);
+
+        List<Coordinates> line = GetLine(tileA, tileB);
+        print(line);
+        Debug.Log("line.Count: ");
+        Debug.Log(line.Count);
+        foreach (Coordinates c in line) {
+            //Debug.Log("c: ");
+            //Debug.Log(c.ToString());
+            //Debug.Log("line: ");
+            //Debug.Log(line.ToString());
+            DrawCircle(c, passagewayRadius);
+        }
     }
-    
+
+    // this renders the passageways determined by the "Debug.Drawline()".
+    //void DrawCircle(Coordinates c, int radius) {
+    //    Debug.Log("Inside 'DrawCircle()'.");
+    //    Debug.Log("c: ");
+    //    Debug.Log(c);
+    //    print(c);
+    //    Debug.Log("radius: ");
+    //    Debug.Log(radius);
+    //    print(radius);
+    //    for (int x = -radius; x <= radius; x++) {
+    //        Debug.Log("x: " + x);
+    //        for (int y = -radius; x <= radius; y++) {
+    //            Debug.Log("y: " + y);
+    //            if (x * x + y * y <= radius * radius) {
+    //                int drawX = c.tileX + x;
+    //                int drawY = c.tileY + y;
+
+    //                if (IsInMapRange(drawX, drawY)) {
+    //                    map[drawX, drawY] = 0;
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
+
+    // this renders the passageways determined by the "Debug.Drawline()".
+    void DrawCircle(Coordinates c, int r) {
+        for (int x = -r; x <= r; x++) {
+            for (int y = -r; y <= r; y++) {
+                if (x * x + y * y <= r * r) {
+                    int drawX = c.tileX + x;
+                    int drawY = c.tileY + y;
+                    if (IsInMapRange(drawX, drawY)) {
+                        map[drawX, drawY] = 0;
+                    }
+                }
+            }
+        }
+    }
+
+
+    List<Coordinates> GetLine(Coordinates from, Coordinates to) {
+        List<Coordinates> line = new List<Coordinates>();
+
+        int x = from.tileX;
+        int y = from.tileY;
+
+        int dx = to.tileX - from.tileX;
+        int dy = to.tileY - from.tileY;
+
+        bool inverted = false;
+        int step = Math.Sign(dx);
+        int gradientStep = Math.Sign(dy);
+
+        int longest = Mathf.Abs(dx);
+        int shortest = Mathf.Abs(dy);
+
+        if (longest < shortest) {
+            inverted = true;
+            longest = Mathf.Abs(dy);
+            shortest = Mathf.Abs(dx);
+
+            step = Math.Sign(dy);
+            gradientStep = Math.Sign(dx);
+        }
+
+        int gradientAccumulation = longest/2;
+        for (int i = 0; i < longest; i++) {
+            line.Add(new Coordinates(x, y));
+
+            if (inverted) {
+                y += step;
+            } else {
+                x += step;
+            }
+
+            gradientAccumulation += shortest;
+            if (gradientAccumulation >= longest) {
+                if (inverted) {
+                    x += gradientStep;
+                } else {
+                    y += gradientStep;
+                }
+
+                gradientAccumulation -= longest;
+            }
+        }
+
+        //Debug.Log("from: " + from);
+        //print(from);
+        //Debug.Log("to: " + to);
+        //print(to);
+        //Debug.Log("line: " + line);
+        //print(line);
+        return line;
+    }
+
     Vector3 CoordToWorldPoint(Coordinates tile) {
         return new Vector3(-width/2 + 0.5f + tile.tileX, 2, -height/2 + 0.5f + tile.tileY);
     }
