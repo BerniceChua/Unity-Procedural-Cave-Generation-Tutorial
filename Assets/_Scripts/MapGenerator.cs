@@ -184,7 +184,7 @@ public class MapGenerator : MonoBehaviour {
     void CreatePassage(Room roomA, Room roomB, Coordinates tileA, Coordinates tileB) {
         int passagewayRadius = 1;
         Room.ConnectRooms(roomA, roomB);
-        Debug.DrawLine(CoordToWorldPoint(tileA), CoordToWorldPoint(tileB), Color.green, 100);
+        //Debug.DrawLine(CoordToWorldPoint(tileA), CoordToWorldPoint(tileB), Color.green, 100);
 
         List<Coordinates> line = GetLine(tileA, tileB);
         print(line);
