@@ -452,7 +452,8 @@ PlayerSettings:
   XboxOneAllowedProductIds: []
   XboxOnePersistentLocalStorageSize: 0
   vrEditorSettings: {}
-  cloudServicesEnabled: {}
+  cloudServicesEnabled:
+    UNet: 1
   cloudProjectId: cd110c1c-074a-4f20-84e5-74a921843312
   projectName: Unity-Procedural-Cave-Generation-Tutorial
   organizationId: bernicechua
