@@ -40,10 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4150836613793996}
   - component: {fileID: 33054885607323940}
-  - component: {fileID: 136918765002088100}
   - component: {fileID: 23453400678940686}
-  - component: {fileID: 114397883348975938}
-  - component: {fileID: 54486052365517654}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -150,21 +147,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1661829543071932}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &54486052365517654
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1661829543071932}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 80
-  m_CollisionDetection: 0
 --- !u!81 &81965659184403788
 AudioListener:
   m_ObjectHideFlags: 1
@@ -179,18 +161,6 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1524981150451310}
   m_Enabled: 1
---- !u!114 &114397883348975938
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1661829543071932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 536d14e1cbc05b44f8cac8fa1b90db4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
 --- !u!114 &114844769386658460
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -211,16 +181,3 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1524981150451310}
   m_Enabled: 1
---- !u!136 &136918765002088100
-CapsuleCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1661829543071932}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
