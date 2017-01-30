@@ -399,8 +399,9 @@ GameObject:
   - component: {fileID: 1428893581}
   - component: {fileID: 1428893580}
   - component: {fileID: 1428893579}
-  - component: {fileID: 1428893583}
   - component: {fileID: 1428893584}
+  - component: {fileID: 1428893583}
+  - component: {fileID: 1428893585}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -500,6 +501,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &1428893585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1428893578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30a31dfe47830c343b4259567fd80d80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
 --- !u!1 &1633733734
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,6 +523,7 @@ GameObject:
   - component: {fileID: 1633733735}
   - component: {fileID: 1633733738}
   - component: {fileID: 1633733736}
+  - component: {fileID: 1633733737}
   m_Layer: 0
   m_Name: CaveMeshGameObject
   m_TagString: Untagged
@@ -561,6 +575,46 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
+--- !u!114 &1633733737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1633733734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 157a54ac11aa7f2408f9bc528a14a742, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onToggleScript:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1428893585}
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1428893583}
+        m_MethodName: set_enabled
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: ToggleEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_caveMesh: {fileID: 1633733734}
+  m_mainCamera: {fileID: 2029528825}
+  m_fpsCamera: {fileID: 44626892}
 --- !u!33 &1633733738
 MeshFilter:
   m_ObjectHideFlags: 0
