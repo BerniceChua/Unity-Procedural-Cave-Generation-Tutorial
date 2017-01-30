@@ -43,7 +43,9 @@ public class MeshGenerator : MonoBehaviour {
         mesh.triangles = triangles.ToArray();
         mesh.RecalculateNormals();
 
-        if (!is2D) {
+        if (is2D) {
+            Generate2DColliders();
+        } else {
             CreateWallMesh();
         }
 
@@ -82,6 +84,25 @@ public class MeshGenerator : MonoBehaviour {
 
         MeshCollider wallCollider = walls.gameObject.AddComponent<MeshCollider>();
         wallCollider.sharedMesh = wallMesh;
+    }
+
+    void Generate2DColliders() {
+        EdgeCollider2D[] currentColliders = gameObject.GetComponents<EdgeCollider2D>(); // resets the edgeColliders.
+        for (int i = 0; i < currentColliders.Length; i++) {
+            Destroy(currentColliders[i]);
+        }
+
+        CalculateMeshOutlines();
+
+        foreach (List<int> outline in outlines) {
+            EdgeCollider2D edgeCollider = gameObject.AddComponent<EdgeCollider2D>();
+            Vector2[] edgePoints = new Vector2[outline.Count];
+
+            for (int i = 0; i < outline.Count; i++) {
+                edgePoints[i] = new Vector2(vertices[outline[i]].x, vertices[outline[i]].z);
+            }
+            edgeCollider.points = edgePoints; // an array ov Vector2s.
+        }
     }
 
     void TriangulateSquare(Square square) { // because meshes are always triangles.
