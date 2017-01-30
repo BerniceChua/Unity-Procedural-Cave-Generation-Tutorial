@@ -43,6 +43,21 @@ public class MeshGenerator : MonoBehaviour {
         mesh.triangles = triangles.ToArray();
         mesh.RecalculateNormals();
 
+        // Texturing:
+        int tileAmount = 10;
+        /* 
+         * Array of Vector2s.  Each Vector2 will belong to a single vertex.  
+         * It will basically say the %-tage of that vertex on the x-axis & y-axis in the map.
+         */
+        Vector2[] uvs = new Vector2[vertices.Count];
+        for (int i = 0; i < vertices.Count; i++) {
+            float percentX = Mathf.InverseLerp(-map.GetLength(0)/2 * squareSize, map.GetLength(0)/2 * squareSize, vertices[i].x) * tileAmount; // we need 3 pieces of info: position of vertex, where map starts, and where map ends on x-axis.
+            float percentY = Mathf.InverseLerp(-map.GetLength(1) / 2 * squareSize, map.GetLength(1) / 2 * squareSize, vertices[i].z) * tileAmount;
+
+            uvs[i] = new Vector2(percentX, percentY);
+        }
+        mesh.uv = uvs;
+
         if (is2D) {
             Generate2DColliders();
         } else {
