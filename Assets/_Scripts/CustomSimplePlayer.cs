@@ -32,11 +32,11 @@ public class CustomSimplePlayer : MonoBehaviour {
             Cursor.lockState = CursorLockMode.None;
     }
 
-    private void FixedUpdate() {
+    //private void FixedUpdate() {
         // Commented this out because the code in Update() made this redundant.
         //rigidbody.MovePosition(rigidbody.position + velocity * Time.fixedDeltaTime);
 
         // Commented this out because the code in CameraMouseLook.cs made this redundant.
         //rigidbody.rotation = Quaternion.Euler(rigidbody.rotation.eulerAngles + new Vector3(1f * Input.GetAxisRaw("Mouse Y"), 1f * Input.GetAxisRaw("Mouse X"), 0f));
-    }
+    //}
 }
