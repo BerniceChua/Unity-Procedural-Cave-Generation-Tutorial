@@ -13,7 +13,8 @@ public class Detect2DOr3D : MonoBehaviour {
 
     //public CustomSimplePlayer script3D;
     //public Custom2DSimplePlayer script2D;
-    //public GameObject m_mapGenerator;
+
+    public GameObject m_meshGenerator;
 
     public GameObject m_playerController;
 
@@ -23,7 +24,8 @@ public class Detect2DOr3D : MonoBehaviour {
     }
 
     void DetectOrientation () {
-        if (m_caveMesh.transform.rotation.eulerAngles.x == 270 || m_caveMesh.transform.rotation.eulerAngles.x == -90) {
+        //if (m_caveMesh.transform.rotation.eulerAngles.x == 270 || m_caveMesh.transform.rotation.eulerAngles.x == -90) {
+        if (m_caveMesh.GetComponent<MeshGenerator>().is2D == true) {
             m_fpsCamera.SetActive(false);
             m_mainCamera.SetActive(true);
 
